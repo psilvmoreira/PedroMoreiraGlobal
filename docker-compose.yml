@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  pedromoreira.api:
+    image: ${DOCKER_REGISTRY-}pedromoreiraapi
+    container_name: pedromoreira.api
+    depends_on:
+      - pedromoreira.database
+    build:
+      context: .
+      dockerfile: PedroMoreira.API/Dockerfile
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+
+  pedromoreira.database:
+    image: postgres:alpine3.19
+    container_name: pedromoreira.database
+    restart: always
+    environment:
+        POSTGRES_PASSWORD: admin
+        POSTGRES_USER: admin
+        POSTGRES_DB: pmoreira
+        PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+        - "5432:5432"
+    volumes:
+        - ../Database:/docker-entrypoint-initdb.d
+        - db:/var/lib/postgresql/data
+volumes:
+  db:
+    driver: local
