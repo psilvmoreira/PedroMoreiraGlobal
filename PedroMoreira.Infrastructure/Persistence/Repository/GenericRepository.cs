@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 namespace PedroMoreira.Infrastructure.Persistence.Repository
 {
     internal abstract class GenericRepository<TEntity, Tkey> 
-        where TEntity : Entity<Tkey> 
+        where TEntity : Entity<Tkey>
     {
 
         protected GenericRepository(PostgresContext context)

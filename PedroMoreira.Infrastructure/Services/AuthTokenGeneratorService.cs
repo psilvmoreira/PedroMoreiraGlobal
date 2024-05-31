@@ -28,8 +28,11 @@ namespace PedroMoreira.Infrastructure.Services
         /// </summary>
         /// <param name="user"></param>
         /// <returns>Returns <paramref name="TokenContract"/> with the Bearer token, Refresh token and expire date for both.  </returns>
-        public async Task<AuthToken> GetAuthToken(Member user, List<string> roles)
+        public async Task<AuthToken> GetAuthToken(Member user, List<string>? roles)
         {
+
+            if (roles is null)
+                throw new ArgumentException("Can´t create ");
 
             var descriptor = await GenTokenDescriptor(
                 user, 
@@ -47,6 +50,7 @@ namespace PedroMoreira.Infrastructure.Services
                         descriptor.Expires.Value,
                         refreshToken);
         }
+        
         /// <summary>
         /// Validate and returns the ClaimsIdentity of old Token
         /// </summary>
@@ -73,14 +77,14 @@ namespace PedroMoreira.Infrastructure.Services
             if (user is null || token is null)
                 return await Task.FromResult(false);
 
-            if (token.RefreshToken is null)
+            if (token.RefreshToken.Expire <= _DataProvider.UtcNow 
+                || token.RefreshToken.Expire <= _DataProvider.UtcNow)
                 return await Task.FromResult(false);
 
-            //if (token.RefreshToken.Expire <= _DataProvider.UtcNow || user.RefreshTokenExpire <= _DataProvider.UtcNow)
-            //    return await Task.FromResult(false);
-
-            //if (token.RefreshToken.Token != user.RefreshToken)
-            //    return await Task.FromResult(false);
+            if (user.UserTokens
+                    .Select(a => a.Value)
+                    .Contains(token.RefreshToken.Token))
+                return await Task.FromResult(false);
 
             return await Task.FromResult(true);
         }

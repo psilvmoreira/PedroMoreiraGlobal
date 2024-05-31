@@ -34,17 +34,27 @@ namespace PedroMoreira.Application.Authentication.Commands.Login
                 return Errors.Authentication.InvalidCredentials;
 
             var result = _hasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
-
+            
             if (result.HasFlag(PasswordVerificationResult.Failed))
                 return Errors.Authentication.InvalidCredentials;
 
-            //Get User Roles Based on 
-
+            //Get User Roles Based on User and application
+            var roles = user.ProjectSecurity
+                                                    .FirstOrDefault(a => a.Project.Key == request.AppKey)
+                                                    ?.Roles
+                                                            .ToList();
 
             // Generate Token
-            _authToken.GetAuthToken(user, user.);
+            // TODO: Need to ajust the list of roles.
+            var token = await _authToken.GetAuthToken(user, roles);
 
-            throw new NotImplementedException();
+            return new AuthenticationResponse()
+            {
+                Token = token.Token,
+                Expire = token.TokenExpire,
+                Refresh = token.RefreshToken.Token,
+                RefreshExpire = token.RefreshToken.Expire
+            };
         }
     }
 }
