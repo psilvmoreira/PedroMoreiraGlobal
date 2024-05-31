@@ -22,32 +22,32 @@ namespace PedroMoreira.Infrastructure.Persistence.Repository
         /// <typeparam name="TEntity">The entity type.</typeparam>
         /// <param name="id">The entity identifier.</param>
         /// <returns>The <typeparamref name="TEntity"/> with the specified identifier if it exists, otherwise null.</returns>
-        public Task<TEntity?> GetBydIdAsync<TEntity>(Tkey id)
-            where TEntity : Entity<Tkey> => dbContext.GetBydIdAsync<TEntity, Tkey>(id);
+        public Task<TEntity?> GetBydIdAsync(Tkey id)
+            => dbContext.GetBydIdAsync<TEntity, Tkey>(id);
 
         /// <summary>
         /// Inserts the specified entity into the database.
         /// </summary>
         /// <typeparam name="TEntity">The entity type.</typeparam>
         /// <param name="entity">The entity to be inserted into the database.</param>
-        public void Insert<TEntity>(TEntity entity)
-            where TEntity : Entity<Tkey> => dbContext.Insert<TEntity, Tkey>(entity);
+        public void Insert(TEntity entity)
+            => dbContext.Insert<TEntity, Tkey>(entity);
 
         /// <summary>
         /// Inserts the specified entities into the database.
         /// </summary>
         /// <typeparam name="TEntity">The entity type.</typeparam>
         /// <param name="entities">The entities to be inserted into the database.</param>
-        public void InsertRange<TEntity>(IReadOnlyCollection<TEntity> entities)
-            where TEntity : Entity<Tkey> => dbContext.InsertRange<TEntity, Tkey>(entities);
+        public void InsertRange(IReadOnlyCollection<TEntity> entities)
+            => dbContext.InsertRange<TEntity, Tkey>(entities);
 
         /// <summary>
         /// Removes the specified entity from the database.
         /// </summary>
         /// <typeparam name="TEntity">The entity type.</typeparam>
         /// <param name="entity">The entity to be removed from the database.</param>
-        public void Remove<TEntity>(TEntity entity)
-            where TEntity : Entity<Tkey> => dbContext.Remove<TEntity, Tkey>(entity);
+        public void Remove(TEntity entity)
+            => dbContext.Remove<TEntity, Tkey>(entity);
 
         /// <summary>
         /// 

@@ -5,6 +5,7 @@ namespace PedroMoreira.Application.Authentication.Commands.Login
 {
     public record LoginCommand(
         string Username,
-        string Password
+        string Password,
+        string AppKey
     ): IRequest<ErrorOr<AuthenticationResponse>>;
 }

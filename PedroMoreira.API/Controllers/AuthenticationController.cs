@@ -1,14 +1,21 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PedroMoreira.API.Controllers.Common;
 using PedroMoreira.Contracts.Authentication;
+using PedroMoreira.Domain.ErrorMessages;
 
 namespace PedroMoreira.API.Controllers
 {
     [Route("Auth")]
     public class AuthenticationController : ApiController
     {
-        public AuthenticationController(ILogger logger, ISender sender) : base(logger, sender) { }
+        public AuthenticationController(
+            ILogger logger, 
+            ISender sender,
+            SignInManager<Member> teste,
+            UserStoreBase<> store,
+            PasswordHasher<>) : base(logger, sender) { teste.PasswordSignInAsync()  }
 
         [HttpPost("signup")]
         public async Task<IActionResult> Register(RegisterRequest request)

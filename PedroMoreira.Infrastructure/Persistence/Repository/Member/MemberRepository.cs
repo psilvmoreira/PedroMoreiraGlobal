@@ -1,4 +1,4 @@
-﻿using PedroMoreira.Application.Common.Repository.Member;
+﻿using PedroMoreira.Application.Common.Repository;
 using PedroMoreira.Domain.Members.Entities;
 using PedroMoreira.Domain.Members.ValueObjects;
 
@@ -17,6 +17,11 @@ namespace PedroMoreira.Infrastructure.Persistence.Repository
         public MemberRepository(PostgresContext context)
             : base(context)
         {
+        }
+
+        public async Task<Member?> GetMemberByName(string userName)
+        {
+            return await FirstOrDefaultAsync(a => a.UserName == userName);
         }
     }
 }

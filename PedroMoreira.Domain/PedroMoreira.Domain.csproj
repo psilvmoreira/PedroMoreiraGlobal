@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Folder Include="Members\Aggregates\" />
+    <Folder Include="Members\Service\" />
   </ItemGroup>
 
 </Project>

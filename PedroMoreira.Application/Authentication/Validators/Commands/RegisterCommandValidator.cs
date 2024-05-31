@@ -1,13 +1,14 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Options;
 using PedroMoreira.Application.Authentication.Commands.Register;
+using PedroMoreira.Application.Authentication.Validators.Common;
 using PedroMoreira.Application.Common.Settings;
 using PedroMoreira.Application.Common.Validator;
 using PedroMoreira.Domain.ErrorMessages;
 
-namespace PedroMoreira.Application.Authentication.Validators
+namespace PedroMoreira.Application.Authentication.Validators.Commands
 {
-    public sealed class RegisterCommandValidator 
+    public sealed class RegisterCommandValidator
         : AbstractValidator<RegisterCommand>
     {
 

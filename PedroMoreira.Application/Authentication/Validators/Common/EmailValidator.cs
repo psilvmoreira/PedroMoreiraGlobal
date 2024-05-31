@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using PedroMoreira.Application.Common.Settings;
 using PedroMoreira.Domain.ErrorMessages;
 
-namespace PedroMoreira.Application.Authentication.Validators
+namespace PedroMoreira.Application.Authentication.Validators.Common
 {
     public sealed class EmailValidator : AbstractValidator<string>
     {
@@ -11,9 +11,10 @@ namespace PedroMoreira.Application.Authentication.Validators
         private readonly ValidationSettings _regexConfig;
 
         public EmailValidator(
-            IOptions<ValidationSettings> regexConfig) 
+            IOptions<ValidationSettings> regexConfig)
         {
             _regexConfig = regexConfig.Value;
+
             RuleFor(x => x)
                 .NotEmpty()
                     .WithErrorCode(Errors.Authentication.EmailNullOrEmpty.Code)

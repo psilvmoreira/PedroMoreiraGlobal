@@ -9,8 +9,8 @@ using PedroMoreira.Infrastructure.Security.ValidationToken;
 using PedroMoreira.Application.Common.Abstractions.Authentication;
 using PedroMoreira.Application.Common.Abstractions.Data;
 using PedroMoreira.Application.Common.Services;
-using PedroMoreira.Application.Common.Repository.Member;
 using PedroMoreira.Infrastructure.Persistence.Repository;
+using PedroMoreira.Application.Common.Repository;
 
 namespace PedroMoreira.Infrastructure
 {
