@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace PedroMoreira.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,7 +23,8 @@ namespace PedroMoreira.Infrastructure.Migrations
                     EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
                     LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
                     LockoutEnd = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false),
+                    ProfileId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -91,8 +92,7 @@ namespace PedroMoreira.Infrastructure.Migrations
                 name: "ProjectSecurity",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ProjectId = table.Column<Guid>(type: "uuid", nullable: false),
                     MemberId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -118,7 +118,7 @@ namespace PedroMoreira.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ProjectSecurityId = table.Column<int>(type: "integer", nullable: false),
+                    ProjectSecurityId = table.Column<Guid>(type: "uuid", nullable: false),
                     ClaimValue = table.Column<string>(type: "text", nullable: false),
                     ClaimType = table.Column<string>(type: "text", nullable: false)
                 },
@@ -138,7 +138,7 @@ namespace PedroMoreira.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ProjectSecurityId = table.Column<int>(type: "integer", nullable: false),
+                    ProjectSecurityId = table.Column<Guid>(type: "uuid", nullable: false),
                     Value = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
@@ -175,9 +175,19 @@ namespace PedroMoreira.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProjectSecurityClaim_Id",
+                table: "ProjectSecurityClaim",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProjectSecurityClaim_ProjectSecurityId",
                 table: "ProjectSecurityClaim",
                 column: "ProjectSecurityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProjectSecurityRole_Id",
+                table: "ProjectSecurityRole",
+                column: "Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProjectSecurityRole_ProjectSecurityId",

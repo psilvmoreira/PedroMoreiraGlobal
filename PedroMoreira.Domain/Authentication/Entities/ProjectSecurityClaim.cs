@@ -7,11 +7,25 @@ namespace PedroMoreira.Domain.Authentication.Entities
 {
     public sealed class ProjectSecurityClaim : Entity<ProjectSecurityClaimId>, IAuditableEntity
     {
+        /// <summary>
+        /// Initialize an instance of <see cref="ProjectSecurityClaim"/>
+        /// </summary>
+        /// <remarks>Required by EF Core.</remarks>
+        private ProjectSecurityClaim()
+        {}
 
+        /// <summary>
+        /// Initialize an instance of <see cref="ProjectSecurityClaim"/>
+        /// </summary>
+        /// <param name="id">Identifier of <see cref="ProjectSecurityClaim"/></param>
+        /// <param name="projectSecurityId">Identifier of <see cref="ProjectSecurity"/></param>
+        /// <param name="claimValue">Claim Value</param>
+        /// <param name="claimType">Claim Type</param>
         private ProjectSecurityClaim(ProjectSecurityClaimId id,
                                      ProjectSecurityId projectSecurityId,
                                      string claimValue,
-                                     string claimType) : base(id)
+                                     string claimType) : 
+            base(id)
         {
             ProjectSecurityId = projectSecurityId;
             ClaimType = claimType;
@@ -30,13 +44,17 @@ namespace PedroMoreira.Domain.Authentication.Entities
 
         public ProjectSecurity ProjectSecurity { get; set; }
 
-        public static ProjectSecurityClaim Create(ProjectSecurityClaimId Id, ProjectSecurityId ProjectSecurityId, string Value, string Type)
+        public static ProjectSecurityClaim Create(
+            ProjectSecurityClaimId id, 
+            ProjectSecurityId projectSecurityId,
+            string value, 
+            string type)
         {
             return new ProjectSecurityClaim(
-                Id, 
-                ProjectSecurityId, 
-                Value, 
-                Type);
+                id, 
+                projectSecurityId,
+                value, 
+                type);
         }
     }
 }

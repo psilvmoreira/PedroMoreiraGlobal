@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PedroMoreira.Domain.Members.Entities;
+using PedroMoreira.Domain.Members.ValueObjects;
 
 namespace PedroMoreira.Infrastructure.Persistence.Configurations
 {
@@ -8,6 +9,11 @@ namespace PedroMoreira.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Member> builder)
         {
+            builder.Property(prop => prop.Id)
+                .HasConversion(
+                    id => id.value,
+                    value => MemberId.Create(value).Value);
+            
             builder
                 .HasOne(MenPro => MenPro.Profile)
                 .WithOne(memb => memb.User)

@@ -1,6 +1,7 @@
 ﻿
 namespace PedroMoreira.Domain.Common.Primitives
 {
+    
     public abstract class ValueObject : IEquatable<ValueObject>
     {
 

@@ -12,26 +12,23 @@ using PedroMoreira.Infrastructure.Persistence;
 namespace PedroMoreira.Infrastructure.Migrations
 {
     [DbContext(typeof(PostgresContext))]
-    [Migration("20240403173759_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240903150208_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("PedroMoreira.Domain.Authentication.Entities.ProjectSecurity", b =>
+            modelBuilder.Entity("PedroMoreira.Domain.Authentication.Aggregates.ProjectSecurity", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("MemberId")
                         .HasColumnType("uuid");
@@ -52,7 +49,6 @@ namespace PedroMoreira.Infrastructure.Migrations
             modelBuilder.Entity("PedroMoreira.Domain.Authentication.Entities.ProjectSecurityClaim", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("ClaimType")
@@ -63,10 +59,12 @@ namespace PedroMoreira.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("ProjectSecurityId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("ProjectSecurityId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id");
 
                     b.HasIndex("ProjectSecurityId");
 
@@ -76,17 +74,18 @@ namespace PedroMoreira.Infrastructure.Migrations
             modelBuilder.Entity("PedroMoreira.Domain.Authentication.Entities.ProjectSecurityRole", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("ProjectSecurityId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("ProjectSecurityId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Value")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Id");
 
                     b.HasIndex("ProjectSecurityId");
 
@@ -96,7 +95,6 @@ namespace PedroMoreira.Infrastructure.Migrations
             modelBuilder.Entity("PedroMoreira.Domain.Members.Entities.Member", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<int>("AccessFailedCount")
@@ -118,6 +116,9 @@ namespace PedroMoreira.Infrastructure.Migrations
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("ProfileId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -187,7 +188,6 @@ namespace PedroMoreira.Infrastructure.Migrations
             modelBuilder.Entity("PedroMoreira.Domain.Projects.Entities.Project", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Key")
@@ -207,7 +207,7 @@ namespace PedroMoreira.Infrastructure.Migrations
                     b.ToTable("Project");
                 });
 
-            modelBuilder.Entity("PedroMoreira.Domain.Authentication.Entities.ProjectSecurity", b =>
+            modelBuilder.Entity("PedroMoreira.Domain.Authentication.Aggregates.ProjectSecurity", b =>
                 {
                     b.HasOne("PedroMoreira.Domain.Members.Entities.Member", "Member")
                         .WithMany("ProjectSecurity")
@@ -228,7 +228,7 @@ namespace PedroMoreira.Infrastructure.Migrations
 
             modelBuilder.Entity("PedroMoreira.Domain.Authentication.Entities.ProjectSecurityClaim", b =>
                 {
-                    b.HasOne("PedroMoreira.Domain.Authentication.Entities.ProjectSecurity", "ProjectSecurity")
+                    b.HasOne("PedroMoreira.Domain.Authentication.Aggregates.ProjectSecurity", "ProjectSecurity")
                         .WithMany("Claims")
                         .HasForeignKey("ProjectSecurityId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -239,7 +239,7 @@ namespace PedroMoreira.Infrastructure.Migrations
 
             modelBuilder.Entity("PedroMoreira.Domain.Authentication.Entities.ProjectSecurityRole", b =>
                 {
-                    b.HasOne("PedroMoreira.Domain.Authentication.Entities.ProjectSecurity", "ProjectSecurity")
+                    b.HasOne("PedroMoreira.Domain.Authentication.Aggregates.ProjectSecurity", "ProjectSecurity")
                         .WithMany("Roles")
                         .HasForeignKey("ProjectSecurityId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -270,7 +270,7 @@ namespace PedroMoreira.Infrastructure.Migrations
                     b.Navigation("Member");
                 });
 
-            modelBuilder.Entity("PedroMoreira.Domain.Authentication.Entities.ProjectSecurity", b =>
+            modelBuilder.Entity("PedroMoreira.Domain.Authentication.Aggregates.ProjectSecurity", b =>
                 {
                     b.Navigation("Claims");
 
