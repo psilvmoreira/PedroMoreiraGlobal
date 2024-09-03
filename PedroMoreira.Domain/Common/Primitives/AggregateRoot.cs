@@ -3,13 +3,13 @@
     /// <summary>
     /// Represents the aggregate root.
     /// </summary>
-    public abstract class AggregateRoot<Tkey> : Entity<Tkey>
+    public abstract class AggregateRoot<TKey> : Entity<TKey>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AggregateRoot"/> class.
         /// </summary>
         /// <param name="id">The aggregate root identifier.</param>
-        protected AggregateRoot(Tkey id) : base(id) { }
+        protected AggregateRoot(TKey id) : base(id) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AggregateRoot"/> class.
@@ -17,7 +17,7 @@
         /// <remarks>
         /// Required by EF Core.
         /// </remarks>
-        protected AggregateRoot() { }
+        protected AggregateRoot() : base() { }
 
         // TODO: Add Domain events
     }

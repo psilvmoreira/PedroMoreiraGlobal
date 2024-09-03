@@ -1,4 +1,5 @@
-﻿using ErrorOr;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using ErrorOr;
 using PedroMoreira.Domain.Common.Primitives;
 using PedroMoreira.Domain.ErrorMessages;
 
@@ -7,6 +8,7 @@ namespace PedroMoreira.Domain.Authentication.ValueObjects
     /// <summary>
     /// Represents the <see cref="ProjectSecurityClaimId"/> Value Object
     /// </summary>
+    [ComplexType]
     public sealed class ProjectSecurityClaimId : ValueObject
     {
 
@@ -20,6 +22,8 @@ namespace PedroMoreira.Domain.Authentication.ValueObjects
         /// </summary>
         /// <param name="value"></param>
         private ProjectSecurityClaimId(Guid value) => this.Value = value;
+        
+        ProjectSecurityClaimId() : this(Guid.NewGuid()) { }
 
 
         /// <summary>

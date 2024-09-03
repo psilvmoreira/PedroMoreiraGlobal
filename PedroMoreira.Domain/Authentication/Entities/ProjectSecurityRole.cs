@@ -14,12 +14,22 @@ namespace PedroMoreira.Domain.Authentication.Entities
         /// <param name="id">Identifier of <see cref="ProjectSecurityRole"/></param>
         /// <param name="projectSecurityId">Identifier of <see cref="ProjectSecurity"/></param>
         /// <param name="value">Identifier of Role</param>
-        private ProjectSecurityRole(ProjectSecurityRoleId id, ProjectSecurityId projectSecurityId, string value)
+        private ProjectSecurityRole(
+                ProjectSecurityRoleId id, 
+                ProjectSecurityId projectSecurityId,
+                string value)
             : base(id) 
         {
             ProjectSecurityId = projectSecurityId;
             Value = value;
         }
+        
+        
+        /// <summary>
+        /// Initialize an instance of <see cref="ProjectSecurityRole"/>
+        /// </summary>
+        private ProjectSecurityRole(): base() {}
+        
         public ProjectSecurityId ProjectSecurityId { get; set; }
 
         public string Value { get; set; }

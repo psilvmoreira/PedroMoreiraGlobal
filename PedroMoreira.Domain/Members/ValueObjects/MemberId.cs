@@ -1,4 +1,5 @@
-﻿using ErrorOr;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using ErrorOr;
 using PedroMoreira.Domain.Common.Primitives;
 using PedroMoreira.Domain.ErrorMessages;
 
@@ -7,6 +8,7 @@ namespace PedroMoreira.Domain.Members.ValueObjects
     /// <summary>
     /// Represents the MemberId Value Object
     /// </summary>
+    [ComplexType]
     public sealed class MemberId : ValueObject
     {
 
@@ -19,7 +21,9 @@ namespace PedroMoreira.Domain.Members.ValueObjects
         /// Initializes a new instance of the <see cref="MemberId"/> Class.
         /// </summary>
         /// <param name="value"></param>
-        private MemberId(Guid value) => this.value = value;
+        public MemberId(Guid value) => this.value = value;
+        
+        private MemberId() : this(Guid.NewGuid()) { }
 
         public static implicit operator Guid(MemberId memberId) => memberId.value;
 

@@ -5,8 +5,8 @@ using System.Linq.Expressions;
 
 namespace PedroMoreira.Infrastructure.Persistence.Repository
 {
-    internal abstract class GenericRepository<TEntity, Tkey> 
-        where TEntity : Entity<Tkey>
+    internal abstract class GenericRepository<TEntity, TKey> 
+        where TEntity : Entity<TKey>
     {
 
         protected GenericRepository(PostgresContext context)
@@ -22,8 +22,8 @@ namespace PedroMoreira.Infrastructure.Persistence.Repository
         /// <typeparam name="TEntity">The entity type.</typeparam>
         /// <param name="id">The entity identifier.</param>
         /// <returns>The <typeparamref name="TEntity"/> with the specified identifier if it exists, otherwise null.</returns>
-        public Task<TEntity?> GetBydIdAsync(Tkey id)
-            => dbContext.GetBydIdAsync<TEntity, Tkey>(id);
+        public Task<TEntity?> GetBydIdAsync(TKey id)
+            => dbContext.GetBydIdAsync<TEntity, TKey>(id);
 
         /// <summary>
         /// Inserts the specified entity into the database.
@@ -31,7 +31,7 @@ namespace PedroMoreira.Infrastructure.Persistence.Repository
         /// <typeparam name="TEntity">The entity type.</typeparam>
         /// <param name="entity">The entity to be inserted into the database.</param>
         public void Insert(TEntity entity)
-            => dbContext.Insert<TEntity, Tkey>(entity);
+            => dbContext.Insert<TEntity, TKey>(entity);
 
         /// <summary>
         /// Inserts the specified entities into the database.
@@ -39,7 +39,7 @@ namespace PedroMoreira.Infrastructure.Persistence.Repository
         /// <typeparam name="TEntity">The entity type.</typeparam>
         /// <param name="entities">The entities to be inserted into the database.</param>
         public void InsertRange(IReadOnlyCollection<TEntity> entities)
-            => dbContext.InsertRange<TEntity, Tkey>(entities);
+            => dbContext.InsertRange<TEntity, TKey>(entities);
 
         /// <summary>
         /// Removes the specified entity from the database.
@@ -47,7 +47,7 @@ namespace PedroMoreira.Infrastructure.Persistence.Repository
         /// <typeparam name="TEntity">The entity type.</typeparam>
         /// <param name="entity">The entity to be removed from the database.</param>
         public void Remove(TEntity entity)
-            => dbContext.Remove<TEntity, Tkey>(entity);
+            => dbContext.Remove<TEntity, TKey>(entity);
 
         /// <summary>
         /// 
@@ -56,7 +56,7 @@ namespace PedroMoreira.Infrastructure.Persistence.Repository
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         protected async Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
-            => await dbContext.Set<TEntity, Tkey>().FirstOrDefaultAsync(predicate, cancellationToken);
+            => await dbContext.Set<TEntity, TKey>().FirstOrDefaultAsync(predicate, cancellationToken);
 
     }
 }

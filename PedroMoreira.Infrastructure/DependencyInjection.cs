@@ -28,7 +28,7 @@ namespace PedroMoreira.Infrastructure
             return services;
         }
 
-        public static IServiceCollection AddServices(this IServiceCollection services)
+        private static IServiceCollection AddServices(this IServiceCollection services)
         {
             services.AddSingleton<IDateTImeProvider, SystemDateTimeProvider>();
             services.AddSingleton<IAuthTokenGeneratorService, AuthTokenGeneratorService>();
@@ -36,7 +36,7 @@ namespace PedroMoreira.Infrastructure
             return services;
         }
 
-        public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration manager)
+        private static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration manager)
         {
             services.AddDbContext<PostgresContext>(o => o.UseNpgsql(manager.GetConnectionString("PmDatabase")));
             services.AddScoped<IDbContext, PostgresContext>();
@@ -49,7 +49,7 @@ namespace PedroMoreira.Infrastructure
             return services;
         }
 
-        public static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration config) 
+        private static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration config) 
         {
             services
                 .AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
@@ -58,11 +58,11 @@ namespace PedroMoreira.Infrastructure
             return services;
         }
 
-        public static IServiceCollection AddSettings(this IServiceCollection services, IConfiguration Config)
+        private static IServiceCollection AddSettings(this IServiceCollection services, IConfiguration config)
         {
             services
                 .AddOptions<TokenSettings>(
-                    Config.GetSection(TokenSettings.Name).Value);
+                    config.GetSection(TokenSettings.Name).Value);
 
             services
                 .ConfigureOptions<BearerTokenValidationConfiguration>();

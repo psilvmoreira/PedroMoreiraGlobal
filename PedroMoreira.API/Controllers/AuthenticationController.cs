@@ -12,10 +12,7 @@ namespace PedroMoreira.API.Controllers
     {
         public AuthenticationController(
             ILogger logger, 
-            ISender sender,
-            SignInManager<Member> teste,
-            UserStoreBase<> store,
-            PasswordHasher<>) : base(logger, sender) { teste.PasswordSignInAsync()  }
+            ISender sender) : base(logger, sender) { }
 
         [HttpPost("signup")]
         public async Task<IActionResult> Register(RegisterRequest request)

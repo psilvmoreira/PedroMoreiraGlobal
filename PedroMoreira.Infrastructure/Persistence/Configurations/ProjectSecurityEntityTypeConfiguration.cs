@@ -1,6 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PedroMoreira.Domain.Authentication.Aggregates;
+using PedroMoreira.Domain.Authentication.ValueObjects;
+using PedroMoreira.Domain.ErrorMessages;
+using PedroMoreira.Domain.Members.Entities;
+using PedroMoreira.Domain.Members.ValueObjects;
+using PedroMoreira.Domain.Projects.ValueObjects;
 
 namespace PedroMoreira.Infrastructure.Persistence.Configurations
 {
@@ -9,10 +15,24 @@ namespace PedroMoreira.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<ProjectSecurity> builder)
         {
+            builder.Property(prop => prop.Id)
+                .HasConversion(
+                    id => id.value,
+                    value => ProjectSecurityId.Create(value).Value);
+            
+            builder.Property(prop => prop.MemberId)
+                .HasConversion(
+                    id => id.value,
+                    value => MemberId.Create(value).Value);
+            
+            builder.Property(prop => prop.ProjectId)
+                .HasConversion(
+                    id => id.Value,
+                    value => ProjectId.Create(value).Value);
+            
             builder
                 .HasIndex(projMem => new { projMem.ProjectId, projMem.MemberId })
                 .IsUnique(true);
-
 
             builder
                 .HasOne(memb => memb.Member)

@@ -6,7 +6,9 @@ namespace PedroMoreira.Infrastructure.Persistence.Repository
 {
     internal sealed class ProjectSecurityRepository : GenericRepository<ProjectSecurity, ProjectSecurityId>
     {
-        
+        public ProjectSecurityRepository(PostgresContext context) : base(context)
+        {
+        }
     }
     
 }

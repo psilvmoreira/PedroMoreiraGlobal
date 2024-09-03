@@ -1,27 +1,34 @@
-﻿using ErrorOr;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using ErrorOr;
+using PedroMoreira.Domain.Authentication.ValueObjects;
 using PedroMoreira.Domain.Common.Primitives;
 using PedroMoreira.Domain.ErrorMessages;
+using PedroMoreira.Domain.Projects.Entities;
 
 namespace PedroMoreira.Domain.Projects.ValueObjects
 {
     /// <summary>
     /// Represents the MemberId Value Object
     /// </summary>
+    
+    [ComplexType]
     public sealed class ProjectId : ValueObject
     {
 
         /// <summary>
         /// Gets the ProjectId value.
         /// </summary>
-        public Guid value { get; }
+        public Guid Value { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProjectSecurityId"/> Class.
         /// </summary>
         /// <param name="value"></param>
-        private ProjectId(Guid value) => this.value = value;
+        private ProjectId(Guid value) => this.Value = value;
+        
+        private ProjectId() : this(Guid.NewGuid()) { }
 
-        public static implicit operator Guid(ProjectId memberId) => memberId.value;
+        public static implicit operator Guid(ProjectId memberId) => memberId.Value;
 
         /// <summary>
         /// Creates a new <see cref="ProjectSecurityId"/> instance based on the specified value.
@@ -39,7 +46,7 @@ namespace PedroMoreira.Domain.Projects.ValueObjects
         /// <inheritdoc />
         protected override IEnumerable<object> GetAtomicVales()
         {
-            yield return value;
+            yield return Value;
         }
     }
 }

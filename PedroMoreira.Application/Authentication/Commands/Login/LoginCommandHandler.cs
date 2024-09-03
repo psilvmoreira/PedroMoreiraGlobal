@@ -12,17 +12,18 @@ namespace PedroMoreira.Application.Authentication.Commands.Login
 {
     public class LoginCommandHandler : IRequestHandler<LoginCommand, ErrorOr<AuthenticationResponse>>
     {
-        private readonly PasswordHasher<Member> _hasher;
+        // private readonly PasswordHasher<Member> _hasher;
         private readonly IMemberRepository _memberRepository;
         private readonly IAuthTokenGeneratorService _authToken;
 
         public LoginCommandHandler(
-            PasswordHasher<Member> hasher,
+            // PasswordHasher<Member> hasher,
             IMemberRepository memberRepository,
             IAuthTokenGeneratorService authToken,
-            IValidator<LoginCommand> validator)
+            IValidator<LoginCommand> validator
+            )
         {
-            _hasher = hasher;
+            // _hasher = hasher;
             _memberRepository = memberRepository;
             _authToken = authToken;
         }
@@ -33,10 +34,10 @@ namespace PedroMoreira.Application.Authentication.Commands.Login
             if(user is null)
                 return Errors.Authentication.InvalidCredentials;
 
-            var result = _hasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
+            // var result = _hasher.VerifyHashedPassword(user, user.PasswordHash, request.Password);
             
-            if (result.HasFlag(PasswordVerificationResult.Failed))
-                return Errors.Authentication.InvalidCredentials;
+            // if (result.HasFlag(PasswordVerificationResult.Failed))
+            //     return Errors.Authentication.InvalidCredentials;
 
             //Get User Roles Based on User and application
             var roles = user.ProjectSecurity
@@ -46,14 +47,14 @@ namespace PedroMoreira.Application.Authentication.Commands.Login
 
             // Generate Token
             // TODO: Need to ajust the list of roles.
-            var token = await _authToken.GetAuthToken(user, roles);
+            // var token = await _authToken.GetAuthToken(user, roles);
 
             return new AuthenticationResponse()
             {
-                Token = token.Token,
-                Expire = token.TokenExpire,
-                Refresh = token.RefreshToken.Token,
-                RefreshExpire = token.RefreshToken.Expire
+                Token = "token.Token",
+                Expire = DateTime.Now,
+                Refresh = "token.RefreshToken.Token",
+                RefreshExpire = DateTime.Now
             };
         }
     }

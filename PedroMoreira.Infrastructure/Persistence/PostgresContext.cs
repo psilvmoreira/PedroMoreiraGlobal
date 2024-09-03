@@ -7,6 +7,9 @@ using PedroMoreira.Application.Common.Services;
 using PedroMoreira.Domain.Common.Abstractions;
 using PedroMoreira.Domain.Common.Primitives;
 using System.Reflection;
+using PedroMoreira.Domain.ErrorMessages;
+using PedroMoreira.Domain.Members.Entities;
+using PedroMoreira.Domain.Members.ValueObjects;
 
 namespace PedroMoreira.Infrastructure.Persistence
 {
@@ -55,7 +58,7 @@ namespace PedroMoreira.Infrastructure.Persistence
             => Database.ExecuteSqlRawAsync(sql, parameters, cancellationToken);
 
         /// <summary>
-        /// Saves all of the pending changes in the unit of work.
+        /// Saves all the pending changes in the unit of work.
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>The number of entities that have been saved.</returns>
@@ -105,8 +108,8 @@ namespace PedroMoreira.Infrastructure.Persistence
                 if (entityEntry.State != EntityState.Deleted)
                     continue;
 
-                    entityEntry.Property(nameof(ISoftDeleteEntity.DeletedOnUtc)).CurrentValue = utcNow;
-                    entityEntry.Property(nameof(ISoftDeleteEntity.Deleted)).CurrentValue = true;
+                entityEntry.Property(nameof(ISoftDeleteEntity.DeletedOnUtc)).CurrentValue = utcNow;
+                entityEntry.Property(nameof(ISoftDeleteEntity.Deleted)).CurrentValue = true;
 
                 UpdateSoftDeleteEntitiesToUnchanged(entityEntry);
             }

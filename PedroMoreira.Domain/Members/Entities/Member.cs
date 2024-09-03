@@ -21,6 +21,8 @@ namespace PedroMoreira.Domain.Members.Entities
         public DateTime LockoutEnd { get; set; }
 
         public int AccessFailedCount { get; set; }
+        
+        public int ProfileId { get; set; }
 
         public MemberProfile Profile { get; set; }
 
